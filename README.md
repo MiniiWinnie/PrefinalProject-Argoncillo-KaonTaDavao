@@ -30,6 +30,17 @@ data.
 - Added the `EateryFactory` closed state and all required factories.
 - Added the five required seeders and populated the exact project totals.
 
+### Part 3: Routes and Read Pages
+
+The project now includes the exact named routes, resource eatery routes, and
+read-only pages for the home, eatery, district, and reviewer views.
+
+- Uses `Route::resource('eateries', EateryController::class)` for all seven eatery routes.
+- Uses slug-based eatery route-model binding.
+- Uses Blade layout, navigation and flash partials, eatery-card component, and rating component.
+- Loads eatery, district, feature, permit, dish, review, and reviewer data in controllers.
+- Uses combined name/specialty, district, and feature filters with six eateries per page.
+
 | Relationship | Type | Why this type fits |
 | --- | --- | --- |
 | District - Eatery | HasMany / BelongsTo | Daghan eateries pwede mag exist sa isa ka district murag Jollibee Davao daghan mga branch |
@@ -55,12 +66,24 @@ data.
 
 ## Route List
 
-The current route list is:
+Run `php artisan route:list --except-vendor` to show:
 
 ```text
-GET|HEAD       / .................................................................................. routes/web.php:5
+GET|HEAD        / ............................................................................ home › HomeController
+  GET|HEAD        districts ............................................... districts.index › DistrictController@index
+  GET|HEAD        districts/{district} ...................................... districts.show › DistrictController@show
+  GET|HEAD        eateries ................................................... eateries.index › EateryController@index
+  POST            eateries ................................................... eateries.store › EateryController@store
+  GET|HEAD        eateries/create .......................................... eateries.create › EateryController@create
+  GET|HEAD        eateries/{eatery} ............................................ eateries.show › EateryController@show
+  PUT|PATCH       eateries/{eatery} ........................................ eateries.update › EateryController@update
+  DELETE          eateries/{eatery} ...................................... eateries.destroy › EateryController@destroy
+  GET|HEAD        eateries/{eatery}/edit ....................................... eateries.edit › EateryController@edit
+  POST            eateries/{eatery}/reviews .......................... eateries.reviews.store › ReviewController@store
+  GET|HEAD        reviewers/{user} .......................................... reviewers.show › ReviewerController@show
+  DELETE          reviews/{review} ........................................ reviews.destroy › ReviewController@destroy
 
-Showing [1] routes
+Showing [13] routes
 ```
 
 ## Personalized Data

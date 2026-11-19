@@ -41,6 +41,17 @@ read-only pages for the home, eatery, district, and reviewer views.
 - Loads eatery, district, feature, permit, dish, review, and reviewer data in controllers.
 - Uses combined name/specialty, district, and feature filters with six eateries per page.
 
+### Part 4: Eatery and Review Forms
+
+The project now includes Form Requests and working eatery and review forms.
+
+- Uses `StoreEateryRequest`, `UpdateEateryRequest`, and `StoreReviewRequest`.
+- Uses exact eatery, permit, feature, and review validation messages.
+- Supports eatery create, edit, update, and delete through named resource routes.
+- Updates each eatery permit and feature pivot through Eloquent relationships.
+- Allows reviews only for open eateries and blocks closed-eatery submissions.
+- Displays validation summaries, field errors, and old input in the Blade forms.
+
 | Relationship | Type | Why this type fits |
 | --- | --- | --- |
 | District - Eatery | HasMany / BelongsTo | Daghan eateries pwede mag exist sa isa ka district murag Jollibee Davao daghan mga branch |

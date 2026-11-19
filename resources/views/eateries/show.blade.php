@@ -108,7 +108,7 @@
                         <label for="user_id" class="block font-semibold">Reviewer</label>
                         <select id="user_id" name="user_id" class="mt-1 w-full rounded border border-stone-300 px-3 py-2">
                             <option value="">Choose reviewer</option>
-                            @foreach (\App\Models\User::orderBy('name')->get() as $user)
+                            @foreach ($users as $user)
                                 <option value="{{ $user->id }}" @selected((string) old('user_id') === (string) $user->id)>
                                     {{ $user->name }}
                                 </option>

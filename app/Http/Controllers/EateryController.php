@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateEateryRequest;
 use App\Models\District;
 use App\Models\Eatery;
 use App\Models\Feature;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -100,7 +101,9 @@ class EateryController extends Controller
             $eatery->reviews->sortByDesc('created_at')->values(),
         );
 
-        return view('eateries.show', compact('eatery'));
+        $users = User::orderBy('name')->get();
+
+        return view('eateries.show', compact('eatery', 'users'));
     }
 
     /**

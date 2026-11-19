@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Database\Factories\DishFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Dish extends Model
 {
-    /** @use HasFactory<\Database\Factories\DishFactory> */
+    /** @use HasFactory<DishFactory> */
     use HasFactory;
 
     protected $fillable = ['eatery_id', 'name', 'price', 'is_bestseller'];

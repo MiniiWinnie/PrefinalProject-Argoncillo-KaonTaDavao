@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\District;
 use App\Models\Dish;
+use App\Models\District;
 use App\Models\Eatery;
 use App\Models\Feature;
 use App\Models\Permit;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;

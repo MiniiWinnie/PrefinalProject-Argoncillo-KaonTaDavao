@@ -86,6 +86,68 @@
             <p class="mt-6 rounded border border-red-200 bg-red-50 p-4 font-semibold text-red-700">
                 This eatery is closed. Reviews are paused.
             </p>
+        @else
+            <section class="mt-6 rounded-lg border border-stone-200 bg-white p-6">
+                <h2 class="text-xl font-bold">Write a Review</h2>
+
+                @if ($errors->any())
+                    <div class="mt-4 rounded border border-red-300 bg-red-50 p-4 text-red-800">
+                        <p class="font-bold">Please correct the following errors:</p>
+                        <ul class="mt-2 list-disc pl-5">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('eateries.reviews.store', $eatery) }}" class="mt-4 space-y-5">
+                    @csrf
+
+                    <div>
+                        <label for="user_id" class="block font-semibold">Reviewer</label>
+                        <select id="user_id" name="user_id" class="mt-1 w-full rounded border border-stone-300 px-3 py-2">
+                            <option value="">Choose reviewer</option>
+                            @foreach (\App\Models\User::orderBy('name')->get() as $user)
+                                <option value="{{ $user->id }}" @selected((string) old('user_id') === (string) $user->id)>
+                                    {{ $user->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('user_id')
+                            <p class="mt-1 text-sm text-red-700">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="rating" class="block font-semibold">Rating</label>
+                        <select id="rating" name="rating" class="mt-1 w-full rounded border border-stone-300 px-3 py-2">
+                            <option value="">Select rating</option>
+                            @for ($rating = 1; $rating <= 5; $rating++)
+                                <option value="{{ $rating }}" @selected((string) old('rating') === (string) $rating)>
+                                    {{ $rating }}
+                                </option>
+                            @endfor
+                        </select>
+                        @error('rating')
+                            <p class="mt-1 text-sm text-red-700">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="body" class="block font-semibold">Review</label>
+                        <textarea id="body" name="body" rows="4"
+                                  class="mt-1 w-full rounded border border-stone-300 px-3 py-2">{{ old('body') }}</textarea>
+                        @error('body')
+                            <p class="mt-1 text-sm text-red-700">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="rounded bg-amber-700 px-4 py-2 font-semibold text-white">
+                        Submit Review
+                    </button>
+                </form>
+            </section>
         @endif
 
         <section class="mt-6 rounded-lg border border-stone-200 bg-white p-6">
@@ -100,6 +162,11 @@
                     </div>
                     <p class="mt-1"><x-rating :value="$review->rating" /></p>
                     <p class="mt-2 text-stone-700">{{ $review->body }}</p>
+                    <form method="POST" action="{{ route('reviews.destroy', $review) }}" class="mt-3">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-sm font-semibold text-red-700">Delete</button>
+                    </form>
                 </article>
             @empty
                 <p class="mt-4 text-stone-500">No reviews yet</p>

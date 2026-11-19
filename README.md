@@ -72,8 +72,8 @@ The project now includes Form Requests and working eatery and review forms.
 | Eateries | 15 |
 | Closed eateries | 3 |
 | Permits | 15 |
-| Dishes | 50 |
-| Reviews | 41 |
+| Dishes | 49 in the current seed run, including exactly 3 on Carinderia ni Argoncillo |
+| Reviews | 35 in the current seed run, including at least 3 on Carinderia ni Argoncillo |
 
 ## Route List
 
@@ -102,6 +102,8 @@ Showing [13] routes
 | Item | Value |
 | --- | --- |
 | Full name | Sai Winnie Argoncillo |
+| Districts | Poblacion, Talomo, Agdao, Buhangin, Toril, Bunawan |
+| Features | Suki ni Argoncillo, Budget Meal, Halal, Open 24 Hours, Aircon, Free Wi-Fi |
 | Eatery | Carinderia ni Argoncillo |
 | Eatery slug | carinderia-ni-argoncillo |
 | Feature | Suki ni Argoncillo |
@@ -110,6 +112,14 @@ Showing [13] routes
 | User 1 | Sai Winnie Argoncillo / argoncillo@kaonta.test |
 | User 2 | Tita Argoncillo / tita.argoncillo@kaonta.test |
 | User password | kaonta2026 |
+
+## Screenshots
+
+Screenshots are available in the `screenshots/` folder:
+
+- `eatery-list.png` - Eatery list with search and filters.
+- `eatery-page.png` - Eatery detail page with dishes and reviews.
+- `create-validation-errors.png` - Create eatery form showing validation errors.
 
 ## Setup
 

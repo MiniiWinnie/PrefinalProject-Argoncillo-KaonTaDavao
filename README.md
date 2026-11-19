@@ -19,6 +19,50 @@ foundation.
 - Configured SQLite and added working migration `down()` methods.
 - Verified that the migrations can be rolled back and run again successfully.
 
+### Part 2: Relationships and Seeding
+
+The project now includes all required model relationships and complete seed
+data.
+
+- Added both directions for district/eatery, eatery/dish, eatery/review,
+  user/review, eatery/permit, and eatery/feature relationships.
+- Added the district-to-review `hasManyThrough` relationship.
+- Added the `EateryFactory` closed state and all required factories.
+- Added the five required seeders and populated the exact project totals.
+
+| Relationship | Type | Why this type fits |
+| --- | --- | --- |
+| District - Eatery | HasMany / BelongsTo | Daghan eateries pwede mag exist sa isa ka district murag Jollibee Davao daghan mga branch |
+| Eatery - Dish | HasMany / BelongsTo | Daghan dishes kada eatery kay sa menu nila pwede daghan items pero for that one eatery. |
+| Eatery - Review | HasMany / BelongsTo | Ang isa ka eatery pwede daghan reviews murag ra 15 google reviews para sa isa ka lugar. |
+| User - Review | HasMany / BelongsTo | Ang user pwede magbuhat daghan kada review, pero kada review kay isa ra ka user naghimo. |
+| Eatery - Permit | HasOne / BelongsTo | Isa ra ka permit pwede para sa isa ka eatery. (Lain sad daghan unless nag renew? pero isa gihapon) |
+| Eatery - Feature | BelongsToMany / BelongsToMany | Many to Many kay multiple features for multiple eateries and vice versa. |
+| District - Review | HasManyThrough | A district has reviews through its eateries, so the district page can count all reviews in that district. |
+
+## Seeded Totals
+
+| Table | Count |
+| --- | ---: |
+| Districts | 6 |
+| Features | 6 |
+| Users | 12 |
+| Eateries | 15 |
+| Closed eateries | 3 |
+| Permits | 15 |
+| Dishes | 50 |
+| Reviews | 41 |
+
+## Route List
+
+The current route list is:
+
+```text
+GET|HEAD       / .................................................................................. routes/web.php:5
+
+Showing [1] routes
+```
+
 ## Personalized Data
 
 | Item | Value |

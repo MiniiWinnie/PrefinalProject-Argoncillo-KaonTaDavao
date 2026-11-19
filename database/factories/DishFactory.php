@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Dish;
+use App\Models\Eatery;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,10 @@ class DishFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'eatery_id' => Eatery::factory(),
+            'name' => fake()->randomElement(['Chicken Meal', 'Pork Adobo', 'Kinilaw', 'Lugaw', 'Durian Shake']),
+            'price' => fake()->randomFloat(2, 40, 250),
+            'is_bestseller' => fake()->boolean(20),
         ];
     }
 }

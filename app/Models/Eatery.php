@@ -29,6 +29,11 @@ class Eatery extends Model
         return ['is_open' => 'boolean'];
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     public function district(): BelongsTo
     {
         return $this->belongsTo(District::class);

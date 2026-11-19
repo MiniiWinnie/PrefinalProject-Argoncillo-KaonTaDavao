@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Eatery;
+use App\Http\Requests\StoreEateryRequest;
+use App\Http\Requests\UpdateEateryRequest;
 use App\Models\District;
+use App\Models\Eatery;
 use App\Models\Feature;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class EateryController extends Controller
 {
@@ -49,15 +53,34 @@ class EateryController extends Controller
      */
     public function create(): View
     {
-        return view('eateries.create');
+        return view('eateries.create', [
+            'districts' => District::orderBy('name')->get(),
+            'features' => Feature::orderBy('name')->get(),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreEateryRequest $request): RedirectResponse
     {
-        abort(501);
+        $data = $request->validated();
+        $featureIds = $data['features'];
+        unset($data['features'], $data['permit_no'], $data['expires_on']);
+
+        $eatery = Eatery::create([
+            ...$data,
+            'slug' => Str::slug($data['name']),
+            'is_open' => (bool) ($data['is_open'] ?? false),
+        ]);
+        $eatery->permit()->create([
+            'permit_no' => $request->validated('permit_no'),
+            'expires_on' => $request->validated('expires_on'),
+        ]);
+        $eatery->features()->sync($featureIds);
+
+        return redirect()->route('eateries.show', $eatery)
+            ->with('success', 'Eatery added.');
     }
 
     /**
@@ -76,6 +99,7 @@ class EateryController extends Controller
             'reviews',
             $eatery->reviews->sortByDesc('created_at')->values(),
         );
+
         return view('eateries.show', compact('eatery'));
     }
 
@@ -84,22 +108,50 @@ class EateryController extends Controller
      */
     public function edit(Eatery $eatery): View
     {
-        return view('eateries.edit', compact('eatery'));
+        $eatery->load(['permit', 'features']);
+
+        return view('eateries.edit', [
+            'eatery' => $eatery,
+            'districts' => District::orderBy('name')->get(),
+            'features' => Feature::orderBy('name')->get(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Eatery $eatery)
+    public function update(UpdateEateryRequest $request, Eatery $eatery): RedirectResponse
     {
-        abort(501);
+        $data = $request->validated();
+        $featureIds = $data['features'];
+        unset($data['features'], $data['permit_no'], $data['expires_on']);
+
+        $eatery->update([
+            ...$data,
+            'slug' => Str::slug($data['name']),
+            'is_open' => (bool) ($data['is_open'] ?? false),
+        ]);
+        $eatery->permit()->updateOrCreate(
+            ['eatery_id' => $eatery->id],
+            [
+                'permit_no' => $request->validated('permit_no'),
+                'expires_on' => $request->validated('expires_on'),
+            ],
+        );
+        $eatery->features()->sync($featureIds);
+
+        return redirect()->route('eateries.show', $eatery)
+            ->with('success', 'Eatery updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Eatery $eatery)
+    public function destroy(Eatery $eatery): RedirectResponse
     {
-        abort(501);
+        $eatery->delete();
+
+        return redirect()->route('eateries.index')
+            ->with('success', 'Eatery deleted.');
     }
 }
